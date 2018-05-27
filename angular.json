@@ -116,6 +116,46 @@
           }
         }
       }
+    },
+    "ng-xselect": {
+      "root": "projects/ng-xselect",
+      "sourceRoot": "projects/ng-xselect/src",
+      "projectType": "library",
+      "prefix": "xs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-xselect/tsconfig.lib.json",
+            "project": "projects/ng-xselect/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ng-xselect/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-xselect/src/test.ts",
+            "tsConfig": "projects/ng-xselect/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-xselect/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-xselect/tsconfig.lib.json",
+              "projects/ng-xselect/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ng-xselect-demo"

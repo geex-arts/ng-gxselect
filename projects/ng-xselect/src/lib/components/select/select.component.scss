@@ -1,0 +1,38 @@
+:host {
+  display: inline-block;
+  box-sizing: border-box;
+
+  *, *::before, *::after { box-sizing: inherit; }
+
+  a, a:visited, a:hover {
+    text-decoration: none;
+  }
+}
+
+.select {
+  display: inline-block;
+  position: relative;
+}
+
+.select_theme_default {
+  .select__input {
+    display: inline-block;
+    max-width: 200px;
+    min-width: 200px;
+    height: 30px;
+    line-height: 28px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #000;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &_opened {
+      background: #f5f5f5;
+    }
+  }
+}

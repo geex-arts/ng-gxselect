@@ -1,0 +1,37 @@
+:host {
+  display: inline-block;
+  box-sizing: border-box;
+
+  *, *::before, *::after { box-sizing: inherit; }
+
+  a, a:visited, a:hover {
+    text-decoration: none;
+  }
+}
+
+.scrollbar_theme_default {
+  .scrollbar__track {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 3px;
+    background: #ccc;
+    border-radius: 3px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &_visible {
+      opacity: 1;
+    }
+  }
+
+  .scrollbar__knob {
+    position: absolute;
+    top: 50%;
+    width: 3px;
+    height: 10px;
+    background: #000;
+  }
+}
