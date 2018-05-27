@@ -1,0 +1,10 @@
+<span class="scrollbar" [ngClass]="['scrollbar_theme_' + theme]">
+  <div *ngIf="state?.vertical"
+       class="scrollbar__track scrollbar__track_position_vertical"
+       [class.scrollbar__track_visible]="visibleVertical">
+    <div class="scrollbar__knob scrollbar__knob_position_vertical"
+         [style.top.%]="verticalTopPercentage"
+         [style.height.%]="verticalHeightPercentage">
+    </div>
+  </div>
+</span>

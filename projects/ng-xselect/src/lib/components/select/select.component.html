@@ -1,0 +1,24 @@
+<div class="select"
+     [ngClass]="['select_theme_' + currentOptions.theme]"
+     (window:click)="onBlur()"
+     (click)="onClick($event)">
+  <a href="javascript:void(0)"
+     class="select__input"
+     [class.select__input_opened]="optionsComponent?.opened"
+     (tap)="toggleOpened()"
+     #input>
+    <ng-container *ngIf="!loading">
+      <ng-container *ngIf="selectedOption == undefined">{{placeholder}}</ng-container>
+      <ng-container *ngIf="selectedOption != undefined">{{selectedOption.name}}</ng-container>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      loading...
+    </ng-container>
+  </a>
+  <xs-options [input]="input"
+               [source]="source"
+               [config]="currentOptions"
+               (change)="onOptionSelected($event)"
+               (touch)="onTouched()">
+  </xs-options>
+</div>

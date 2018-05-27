@@ -1,0 +1,7 @@
+<div [ngClass]="['select_theme_' + currentOptions.theme]">
+  <xs-options [input]="input"
+               [source]="source"
+               [config]="currentOptions"
+               (change)="onOptionSelected($event)">
+  </xs-options>
+</div>
