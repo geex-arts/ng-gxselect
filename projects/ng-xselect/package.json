@@ -1,6 +1,6 @@
 {
   "name": "ng-xselect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Customizable dropdown components",
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
     "hammerjs": "^2.0.8",
+    "ng-xscrollable": "0.0.2",
     "ngx-infinite-scroll": "^6.0.0"
   }
 }
