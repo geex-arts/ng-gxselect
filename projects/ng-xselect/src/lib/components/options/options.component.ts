@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
+import { ScrollableDirective } from 'ng-xscrollable';
 
 import {
   ComponentDestroyObserver,
@@ -15,8 +16,6 @@ import { StaticSelectSource } from '../../stores/static-select-source';
 import { Option } from '../../models/option';
 import { SelectOptions } from '../select/select.component';
 import { SelectService } from '../../services/select/select.service';
-import { ScrollableDirective } from '../../directives/scrollable/scrollable.directive';
-
 
 export enum OptionsPosition {
   BottomLeft,
