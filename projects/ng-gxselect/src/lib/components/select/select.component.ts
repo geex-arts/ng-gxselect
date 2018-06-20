@@ -28,7 +28,7 @@ export const DefaultSelectOptions: SelectOptions = {
 };
 
 @Component({
-  selector: 'xs-select',
+  selector: 'gxs-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

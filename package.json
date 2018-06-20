@@ -1,5 +1,5 @@
 {
-  "name": "ng-xselect-demo",
+  "name": "ng-gxselect-demo",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -22,7 +22,7 @@
     "@angular/router": "^6.0.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
-    "ng-xscrollable": "0.0.3",
+    "ng-gxscrollable": "0.0.1",
     "ngx-infinite-scroll": "^6.0.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
