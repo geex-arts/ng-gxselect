@@ -5,7 +5,7 @@ import {
 import { ComponentDestroyObserver } from '../../decorators/component-destroy-observer/component-destroy-observer';
 
 @Component({
-  selector: 'xs-option',
+  selector: 'gxs-option',
   templateUrl: './option.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

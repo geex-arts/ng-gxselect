@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgXScrollableModule } from 'ng-xscrollable';
+import { NgGxScrollableModule } from 'ng-gxscrollable';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import 'hammerjs';
@@ -17,7 +17,7 @@ import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
     CommonModule,
     FormsModule,
     InfiniteScrollModule,
-    NgXScrollableModule
+    NgGxScrollableModule
   ],
   declarations: [
     SelectComponent,
@@ -32,4 +32,4 @@ import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
     AutocompleteComponent
   ]
 })
-export class NgXSelectModule { }
+export class NgGxSelectModule { }

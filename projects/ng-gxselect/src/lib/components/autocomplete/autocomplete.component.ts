@@ -19,7 +19,7 @@ import { Option } from '../../models/option';
 import { DefaultSelectOptions, SelectOptions } from '../select/select.component';
 
 @Component({
-  selector: 'xs-autocomplete',
+  selector: 'gxs-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None

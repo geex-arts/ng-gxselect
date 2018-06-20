@@ -1,10 +1,10 @@
 {
-  "name": "ng-xselect",
-  "version": "0.0.3",
+  "name": "ng-gxselect",
+  "version": "0.0.1",
   "description": "Customizable dropdown components",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/geex-arts/ng-xselect.git"
+    "url": "git+https://github.com/geex-arts/ng-gxselect.git"
   },
   "keywords": [
     "angular2",
@@ -16,14 +16,14 @@
   "author": "Denis Kildishev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/geex-arts/ng-xselect/issues"
+    "url": "https://github.com/geex-arts/ng-gxselect/issues"
   },
-  "homepage": "https://github.com/geex-arts/ng-xselect",
+  "homepage": "https://github.com/geex-arts/ng-gxselect",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
     "hammerjs": "^2.0.8",
-    "ng-xscrollable": "0.0.3",
+    "ng-gxscrollable": "0.0.1",
     "ngx-infinite-scroll": "^6.0.0"
   }
 }

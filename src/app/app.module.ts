@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { NgXSelectModule } from '../../projects/ng-xselect/src/lib/ng-xselect.module';
+import { NgGxSelectModule } from '../../projects/ng-gxselect/src/lib/ng-gxselect.module';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    NgXSelectModule
+    NgGxSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

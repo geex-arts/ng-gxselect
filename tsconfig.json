@@ -17,8 +17,8 @@
       "dom"
     ],
     "paths": {
-      "ng-xselect": [
-        "dist/ng-xselect"
+      "ng-gxselect": [
+        "dist/ng-gxselect"
       ]
     }
   }

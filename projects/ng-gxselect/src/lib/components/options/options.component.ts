@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
-import { ScrollableDirective } from 'ng-xscrollable';
+import { ScrollableDirective } from 'ng-gxscrollable';
 
 import {
   ComponentDestroyObserver,
@@ -25,7 +25,7 @@ export enum OptionsPosition {
 }
 
 @Component({
-  selector: 'xs-options',
+  selector: 'gxs-options',
   templateUrl: './options.component.html',
   styleUrls: ['./options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
