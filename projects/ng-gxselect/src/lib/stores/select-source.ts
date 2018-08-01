@@ -120,8 +120,10 @@ export abstract class SelectSource {
     );
   }
 
-  loadValue(value: any) {
-    this.fetchByValue(value).subscribe(option => this.valueOption = option);
+  loadValue(value: any): Observable<Option> {
+    const obs = this.fetchByValue(value);
+    obs.subscribe(option => this.valueOption = option);
+    return obs;
   }
 
   abstract fetch(searchQuery: string): Observable<Option[]>;

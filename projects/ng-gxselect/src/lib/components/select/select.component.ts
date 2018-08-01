@@ -48,6 +48,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() placeholder = 'Choose';
   @Output() change = new EventEmitter<any>();
+  @Output() loadedInitialValue = new EventEmitter<void>();
   @ViewChild(OptionsComponent) optionsComponent: OptionsComponent;
   @ContentChildren(OptionComponent) staticOptions = new QueryList<OptionComponent>();
 

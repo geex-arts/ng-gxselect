@@ -38,6 +38,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() config: SelectOptions = {};
   @Output() change = new EventEmitter<Option>();
   @Output() touch = new EventEmitter<void>();
+  @Output() loadedInitialValue = new EventEmitter<void>();
   @ViewChild('root') root: ElementRef;
   @ViewChild(ScrollableDirective) scrollable: ScrollableDirective;
 
@@ -115,7 +116,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         this.options = options;
 
         if (!this.valueOption && this.value != undefined) {
-          this.source.loadValue(this.value);
+          this.sourceSubscriptions.push(this.source.loadValue(this.value)
+            .pipe(whileComponentNotDestroyed(this))
+            .subscribe(() => {
+              this.loadedInitialValue.next();
+            }));
         }
 
         this.cd.detectChanges();
@@ -128,7 +133,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       }));
 
     if (this.value != undefined) {
-      this.source.loadValue(this.value);
+      this.sourceSubscriptions.push(this.source.loadValue(this.value)
+        .pipe(whileComponentNotDestroyed(this))
+        .subscribe(() => {
+          this.loadedInitialValue.next();
+        }));
     }
   }
 
