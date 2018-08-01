@@ -2,9 +2,10 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
   Output, SimpleChanges, ViewChild
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ScrollableDirective } from 'ng-gxscrollable';
+import * as _ from 'lodash';
 
 import {
   ComponentDestroyObserver,
@@ -22,6 +23,13 @@ export enum OptionsPosition {
   BottomRight,
   TopLeft,
   TopRight
+}
+
+export enum KeyboardEventCode {
+  Enter = 13,
+  Escape = 27,
+  ArrowUp = 38,
+  ArrowDown = 40
 }
 
 @Component({
@@ -48,6 +56,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   searchUpdated = new Subject<void>();
   searchMinimumLength = 3;
   options: Option[] = [];
+  hoverOption: Option;
   value: any;
   valueOption: Option;
   loading = false;
@@ -65,7 +74,9 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         debounceTime(this.config.searchDebounce)
       )
       .subscribe(() => {
+        this.hoverOption = undefined;
         this.source.search(this.searchQuery.length >= this.searchMinimumLength ? this.searchQuery : undefined);
+        this.cd.detectChanges();
       });
 
     this.selectService.openedOptions$
@@ -74,6 +85,25 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         whileComponentNotDestroyed(this)
       )
       .subscribe(() => this.close());
+
+    fromEvent<KeyboardEvent>(document, 'keyup')
+      .pipe(
+        filter(() => this.opened),
+        whileComponentNotDestroyed(this)
+      )
+      .subscribe(e => {
+        if (e.keyCode == KeyboardEventCode.ArrowUp || e.keyCode == KeyboardEventCode.ArrowDown) {
+          this.moveHover(e.keyCode == KeyboardEventCode.ArrowUp);
+        } else if (e.keyCode == KeyboardEventCode.Enter) {
+          this.selectHovered();
+        } else if (e.keyCode == KeyboardEventCode.Escape) {
+          this.close();
+        } else {
+          return;
+        }
+
+        e.preventDefault();
+      });
 
     this.initOptions();
   }
@@ -197,6 +227,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
 
     this.opened = true;
     this.optionsPosition = this.calculateOptionsPosition();
+    this.hoverOption = this.selectedOption;
     this.scrollable.scrollTo(0);
     this.touch.emit();
     this.cd.detectChanges();
@@ -248,5 +279,35 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
 
   onScrolled() {
     this.loadMore();
+  }
+
+  setHoverOption(option) {
+    this.hoverOption = option;
+    this.cd.detectChanges();
+  }
+
+  moveHover(up) {
+    let index;
+
+    if (up) {
+      index = this.hoverOption ? this.options.findIndex(item => item === this.hoverOption) - 1 : this.options.length - 1;
+    } else {
+      index = this.hoverOption ? this.options.findIndex(item => item === this.hoverOption) + 1 : 0;
+    }
+
+    index = _.clamp(index, 0, this.options.length - 1);
+
+    if (index > this.options.length - 1) {
+      return;
+    }
+
+    this.hoverOption = this.options[index];
+    this.cd.detectChanges();
+  }
+
+  selectHovered() {
+    if (this.hoverOption) {
+      this.setValue(this.hoverOption.value);
+    }
   }
 }
