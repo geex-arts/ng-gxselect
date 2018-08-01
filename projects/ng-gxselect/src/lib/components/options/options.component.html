@@ -25,13 +25,17 @@
       <a *ngFor="let option of options; trackBy: trackByFn"
          href="javascript:void(0)"
          class="options__item"
+         [class.options__item_hover]="option === hoverOption"
          [class.options__item_selected]="option.value == value"
+         (mouseenter)="setHoverOption(option)"
+         (mouseleave)="setHoverOption(option)"
          (tap)="setValue(option.value)">
         {{option.name}}
       </a>
       <div *ngIf="loading" class="options__loading">loading...</div>
       <div *ngIf="options.length == 0 && !loading" class="options__empty">
-        Nothing found
+        <ng-container *ngIf="searchQuery.length >= searchMinimumLength">Nothing found</ng-container>
+        <ng-container *ngIf="searchQuery.length < searchMinimumLength">Enter at least {{searchMinimumLength}} characters</ng-container>
       </div>
     </div>
     <gxs-scrollbar [scrollable]="scrollable" [theme]="config.theme"></gxs-scrollbar>

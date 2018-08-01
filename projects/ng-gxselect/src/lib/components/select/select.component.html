@@ -19,6 +19,7 @@
                [source]="source"
                [config]="currentOptions"
                (change)="onOptionSelected($event)"
-               (touch)="onTouched()">
+               (touch)="onTouched()"
+               (loadedInitialValue)="loadedInitialValue.emit()">
   </gxs-options>
 </div>
