@@ -46,6 +46,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   optionsPosition = OptionsPosition.BottomLeft;
   searchQuery = '';
   searchUpdated = new Subject<void>();
+  searchMinimumLength = 3;
   options: Option[] = [];
   value: any;
   valueOption: Option;
@@ -64,7 +65,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         debounceTime(this.config.searchDebounce)
       )
       .subscribe(() => {
-        this.source.search(this.searchQuery != '' ? this.searchQuery : undefined);
+        this.source.search(this.searchQuery.length >= this.searchMinimumLength ? this.searchQuery : undefined);
       });
 
     this.selectService.openedOptions$
