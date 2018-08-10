@@ -153,6 +153,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
       return;
     }
     this.optionsComponent.toggleOpened();
+    this.cd.detectChanges();
   }
 
   onClick(e) {
@@ -165,6 +166,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   onBlur() {
     this.optionsComponent.close();
+    this.cd.detectChanges();
   }
 
   onTouched() {
