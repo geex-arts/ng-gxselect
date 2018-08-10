@@ -251,7 +251,15 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
 
   calculateOptionsPosition() {
     const inputRect = this.input.getBoundingClientRect();
-    const rect = this.root.nativeElement.getBoundingClientRect().toJSON();
+    const bounds = this.root.nativeElement.getBoundingClientRect();
+    const rect = {
+      top: bounds.top,
+      left: bounds.left,
+      bottom: bounds.bottom,
+      right: bounds.right,
+      width: bounds.width,
+      height: bounds.height
+    };
 
     rect.top = rect.top - inputRect.height - rect.height;
     rect.left = rect.left - rect.width + inputRect.width;
