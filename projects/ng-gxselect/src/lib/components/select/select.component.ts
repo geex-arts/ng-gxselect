@@ -114,6 +114,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   setValue(value: any) {
+    if (value === this.value) {
+      return;
+    }
+
     this.value = value;
     this.valueOption = undefined;
     this.optionsComponent.setValue(this.value);
