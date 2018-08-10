@@ -35,5 +35,10 @@
     &_opened {
       background: #f5f5f5;
     }
+
+    &_disabled {
+      background: #eee;
+      cursor: default;
+    }
   }
 }

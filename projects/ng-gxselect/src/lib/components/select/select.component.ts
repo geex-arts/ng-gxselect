@@ -47,6 +47,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   @Input() initialValue: any;
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() placeholder = 'Choose';
+  @Input() disabled = false;
   @Output() change = new EventEmitter<any>();
   @Output() loadedInitialValue = new EventEmitter<void>();
   @ViewChild(OptionsComponent) optionsComponent: OptionsComponent;
@@ -66,6 +67,12 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initialValue']) {
       this.setValue(this.initialValue);
+    }
+
+    if (changes['disabled']) {
+      if (this.disabled) {
+        this.optionsComponent.close();
+      }
     }
   }
 
@@ -100,7 +107,17 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
     this.touchCallback = fn;
   }
 
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+    this.optionsComponent.close();
+    this.cd.detectChanges();
+  }
+
   setValue(value: any) {
+    if (value === this.value) {
+      return;
+    }
+
     this.value = value;
     this.valueOption = undefined;
     this.optionsComponent.setValue(this.value);
@@ -132,7 +149,11 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   toggleOpened() {
+    if (this.disabled) {
+      return;
+    }
     this.optionsComponent.toggleOpened();
+    this.cd.detectChanges();
   }
 
   onClick(e) {
@@ -145,6 +166,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   onBlur() {
     this.optionsComponent.close();
+    this.cd.detectChanges();
   }
 
   onTouched() {
