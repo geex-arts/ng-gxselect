@@ -17,6 +17,7 @@ import { StaticSelectSource } from '../../stores/static-select-source';
 import { Option } from '../../models/option';
 import { SelectOptions } from '../select/select.component';
 import { SelectService } from '../../services/select/select.service';
+import { getOffset } from '../../utils/document-utils/document-utils';
 
 export enum OptionsPosition {
   BottomLeft,
@@ -49,6 +50,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   @Output() loadedInitialValue = new EventEmitter<void>();
   @ViewChild('root') root: ElementRef;
   @ViewChild(ScrollableDirective) scrollable: ScrollableDirective;
+  @ViewChild('scrollable_inner') scrollableInner: ElementRef;
 
   optionsPositions = OptionsPosition;
   optionsPosition = OptionsPosition.BottomLeft;
@@ -228,9 +230,9 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     this.opened = true;
     this.optionsPosition = this.calculateOptionsPosition();
     this.hoverOption = this.selectedOption;
-    this.scrollable.scrollTo(0);
     this.touch.emit();
     this.cd.detectChanges();
+    this.scrollToHovered();
     this.selectService.openedOptions = this;
   }
 
@@ -311,11 +313,36 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
 
     this.hoverOption = this.options[index];
     this.cd.detectChanges();
+
+    this.scrollToHovered();
   }
 
   selectHovered() {
     if (this.hoverOption) {
       this.setValue(this.hoverOption.value);
     }
+  }
+
+  scrollToHovered() {
+    const index = this.options.findIndex(item => item === this.hoverOption);
+
+    if (index == -1) {
+      return;
+    }
+
+    const viewportEl: HTMLElement = this.scrollable['el'].nativeElement;
+    const container: HTMLElement = this.scrollableInner.nativeElement;
+    const itemEl: HTMLElement = <HTMLElement>container.children[index];
+    const parentOffset = getOffset(container, viewportEl);
+    const itemOffset = getOffset(itemEl, viewportEl);
+    const itemTop = itemOffset.top - parentOffset.top;
+
+    if (itemTop >= viewportEl.scrollTop && itemTop + itemEl.offsetHeight <= viewportEl.scrollTop + viewportEl.offsetHeight) {
+      return;
+    }
+
+    const position = itemTop - itemEl.offsetHeight / 2;
+
+    this.scrollable.scrollTo(position);
   }
 }
