@@ -88,7 +88,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(() => this.close());
 
-    fromEvent<KeyboardEvent>(document, 'keyup')
+    fromEvent<KeyboardEvent>(document, 'keydown')
       .pipe(
         filter(() => this.opened),
         whileComponentNotDestroyed(this)
