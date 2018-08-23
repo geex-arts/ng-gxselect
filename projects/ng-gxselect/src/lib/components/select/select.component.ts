@@ -127,9 +127,16 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
     this.change.next(this.value);
   }
 
-  onOptionSelected(value: Option) {
-    this.value = value ? value.value : undefined;
-    this.valueOption = value;
+  onOptionSelected(option: Option) {
+    this.valueOption = option;
+
+    const value = option ? option.value : undefined;
+
+    if (value === this.value) {
+      return;
+    }
+
+    this.value = value;
     this.changeCallback(this.value);
     this.touchCallback();
     this.cd.detectChanges();
