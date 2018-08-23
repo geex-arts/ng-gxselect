@@ -1,5 +1,5 @@
 
-<gxs-select placeholder="Choose your destiny" [initialValue]="'value2'" [options]="{ search: true }">
+<gxs-select placeholder="Choose your destiny" [initialValue]="'value2'" [options]="{ search: true }" (change)="onChange($event, 1)">
   <gxs-option value="value1">name1</gxs-option>
   <gxs-option [value]="'value2'">name2</gxs-option>
   <gxs-option [value]="'value3'">name3</gxs-option>
@@ -21,9 +21,9 @@
   <gxs-option [value]="'value19'">name19</gxs-option>
 </gxs-select>
 
-<gxs-select placeholder="Disabled select" [options]="{ search: true }" [disabled]="true"></gxs-select>
+<gxs-select placeholder="Disabled select" [options]="{ search: true }" [disabled]="true" (change)="onChange($event, 2)"></gxs-select>
 
-<gxs-select placeholder="Choose your destiny" [initialValue]="'value2'" [options]="{ search: true, theme: 'custom' }">
+<gxs-select placeholder="Choose your destiny" [initialValue]="'value2'" [options]="{ search: true, theme: 'custom' }" (change)="onChange($event, 3)">
   <gxs-option value="value1">name1</gxs-option>
   <gxs-option [value]="'value2'">name2</gxs-option>
   <gxs-option [value]="'value3'">name3</gxs-option>

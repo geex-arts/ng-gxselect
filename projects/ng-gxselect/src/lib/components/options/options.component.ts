@@ -60,6 +60,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   options: Option[] = [];
   hoverOption: Option;
   value: any;
+  valueInitialSet = true;
   valueOption: Option;
   loading = false;
   opened = false;
@@ -139,6 +140,9 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     this.sourceSubscriptions.push(this.source.valueOption$
       .pipe(whileComponentNotDestroyed(this))
       .subscribe(option => {
+        if (this.valueOption === option) {
+          return;
+        }
         this.valueOption = option;
         this.change.next(this.valueOption);
         this.cd.detectChanges();
@@ -183,11 +187,21 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setValue(value: any) {
+    if (value === this.value) {
+      return;
+    }
+
+    const valueInitialSet = this.valueInitialSet;
+
     this.value = value;
+    this.valueInitialSet = false;
     this.valueOption = this.selectedOption;
     this.opened = false;
     this.cd.detectChanges();
-    this.change.next(this.valueOption || { value: this.value, name: undefined });
+
+    if (!valueInitialSet) {
+      this.change.next(this.valueOption || { value: this.value, name: undefined });
+    }
   }
 
   get selectedOption() {
