@@ -45,6 +45,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() input: any;
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() config: SelectOptions = {};
+  @Output() valueSet = new EventEmitter<Option>();
   @Output() change = new EventEmitter<Option>();
   @Output() touch = new EventEmitter<void>();
   @Output() loadedInitialValue = new EventEmitter<void>();
@@ -60,6 +61,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   options: Option[] = [];
   hoverOption: Option;
   value: any;
+  valueInitialSet = true;
   valueOption: Option;
   loading = false;
   opened = false;
@@ -88,7 +90,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(() => this.close());
 
-    fromEvent<KeyboardEvent>(document, 'keyup')
+    fromEvent<KeyboardEvent>(document, 'keydown')
       .pipe(
         filter(() => this.opened),
         whileComponentNotDestroyed(this)
@@ -139,8 +141,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     this.sourceSubscriptions.push(this.source.valueOption$
       .pipe(whileComponentNotDestroyed(this))
       .subscribe(option => {
+        if (this.valueOption === option) {
+          return;
+        }
         this.valueOption = option;
-        this.change.next(this.valueOption);
+        this.change.emit(this.valueOption);
         this.cd.detectChanges();
       }));
     this.sourceSubscriptions.push(this.source.options$
@@ -183,11 +188,24 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setValue(value: any) {
+    if (value === this.value) {
+      this.valueInitialSet = false;
+      this.valueOption = this.selectedOption;
+      this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
+      return;
+    }
+
+    const valueInitialSet = this.valueInitialSet;
+
     this.value = value;
+    this.valueInitialSet = false;
     this.valueOption = this.selectedOption;
     this.opened = false;
     this.cd.detectChanges();
-    this.change.next(this.valueOption || { value: this.value, name: undefined });
+
+    if (!valueInitialSet) {
+      this.change.emit(this.valueOption || { value: this.value, name: undefined });
+    }
   }
 
   get selectedOption() {

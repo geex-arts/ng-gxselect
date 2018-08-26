@@ -56,6 +56,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   loading = false;
 
   private value: any;
+  private valueInitialSet = true;
   private valueOption: Option;
   private touchCallback = () => void {};
   private changeCallback = (_: any) => void {};
@@ -115,25 +116,55 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   setValue(value: any) {
     if (value === this.value) {
+      this.valueInitialSet = false;
+      this.optionsComponent.setValue(this.value);
       return;
     }
 
+    const valueInitialSet = this.valueInitialSet;
+
     this.value = value;
+    this.valueInitialSet = false;
     this.valueOption = undefined;
     this.optionsComponent.setValue(this.value);
-    this.changeCallback(this.value);
-    this.touchCallback();
+
     this.cd.detectChanges();
-    this.change.next(this.value);
+
+    if (!valueInitialSet) {
+      this.changeCallback(this.value);
+      this.touchCallback();
+      this.change.next(this.value);
+    }
   }
 
-  onOptionSelected(value: Option) {
-    this.value = value ? value.value : undefined;
-    this.valueOption = value;
-    this.changeCallback(this.value);
-    this.touchCallback();
+  onOptionValueSet(option: Option) {
+    this.valueOption = option;
+    this.value = option ? option.value : undefined;
+    this.valueInitialSet = false;
     this.cd.detectChanges();
-    this.change.next(this.value);
+  }
+
+  onOptionSelected(option: Option) {
+    this.valueOption = option;
+
+    const value = option ? option.value : undefined;
+
+    if (value === this.value) {
+      return;
+    }
+
+    const valueInitialSet = this.valueInitialSet;
+
+    this.value = value;
+    this.valueInitialSet = false;
+
+    this.cd.detectChanges();
+
+    if (!valueInitialSet) {
+      this.changeCallback(this.value);
+      this.touchCallback();
+      this.change.next(this.value);
+    }
   }
 
   get selectedOption() {
