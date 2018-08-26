@@ -45,6 +45,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() input: any;
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() config: SelectOptions = {};
+  @Output() valueSet = new EventEmitter<Option>();
   @Output() change = new EventEmitter<Option>();
   @Output() touch = new EventEmitter<void>();
   @Output() loadedInitialValue = new EventEmitter<void>();
@@ -144,7 +145,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
           return;
         }
         this.valueOption = option;
-        this.change.next(this.valueOption);
+        this.change.emit(this.valueOption);
         this.cd.detectChanges();
       }));
     this.sourceSubscriptions.push(this.source.options$
@@ -188,6 +189,9 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
 
   setValue(value: any) {
     if (value === this.value) {
+      this.valueInitialSet = false;
+      this.valueOption = this.selectedOption;
+      this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
       return;
     }
 
@@ -200,7 +204,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     this.cd.detectChanges();
 
     if (!valueInitialSet) {
-      this.change.next(this.valueOption || { value: this.value, name: undefined });
+      this.change.emit(this.valueOption || { value: this.value, name: undefined });
     }
   }
 

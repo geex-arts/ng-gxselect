@@ -116,6 +116,8 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   setValue(value: any) {
     if (value === this.value) {
+      this.valueInitialSet = false;
+      this.optionsComponent.setValue(this.value);
       return;
     }
 
@@ -133,6 +135,13 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
       this.touchCallback();
       this.change.next(this.value);
     }
+  }
+
+  onOptionValueSet(option: Option) {
+    this.valueOption = option;
+    this.value = option ? option.value : undefined;
+    this.valueInitialSet = false;
+    this.cd.detectChanges();
   }
 
   onOptionSelected(option: Option) {
