@@ -2,6 +2,7 @@ import {
   AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, forwardRef,
   Input, OnChanges, OnDestroy, Output, QueryList, SimpleChanges, ViewChild, ViewEncapsulation
 } from '@angular/core';
+import { ViewState } from '@angular/core/src/view';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
@@ -99,7 +100,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   writeValue(value: any): void {
-    if (!componentNotDestroyed(this)) {
+    if (!componentNotDestroyed(this) || this.cd['_view'].state & ViewState.Destroyed) {
       return;
     }
 
@@ -116,10 +117,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   setDisabledState(isDisabled: boolean) {
-    if (!componentNotDestroyed(this)) {
+    if (!componentNotDestroyed(this) || this.cd['_view'].state & ViewState.Destroyed) {
       return;
     }
-    
+
     this.disabled = isDisabled;
     this.optionsComponent.close();
     this.cd.detectChanges();
