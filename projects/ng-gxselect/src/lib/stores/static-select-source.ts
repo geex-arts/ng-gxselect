@@ -39,7 +39,7 @@ export class StaticSelectSource extends SelectSource {
   }
 
   setStaticOptions(options: Option[]) {
-    if (JSON.stringify(this.staticOptions) == JSON.stringify(options)) {
+    if (_.isEqual(this.staticOptions, options)) {
       return;
     }
     this.staticOptions = options;
