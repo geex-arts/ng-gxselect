@@ -5,7 +5,10 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
-import { ComponentDestroyObserver } from '../../decorators/component-destroy-observer/component-destroy-observer';
+import {
+  ComponentDestroyObserver,
+  componentNotDestroyed
+} from '../../decorators/component-destroy-observer/component-destroy-observer';
 
 import { Option } from '../../models/option';
 import { OptionComponent } from '../option/option.component';
@@ -96,6 +99,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   writeValue(value: any): void {
+    if (!componentNotDestroyed(this)) {
+      return;
+    }
+
     this.setValue(value);
     this.cd.detectChanges();
   }
@@ -109,6 +116,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   setDisabledState(isDisabled: boolean) {
+    if (!componentNotDestroyed(this)) {
+      return;
+    }
+    
     this.disabled = isDisabled;
     this.optionsComponent.close();
     this.cd.detectChanges();
