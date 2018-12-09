@@ -22,13 +22,15 @@ export interface SelectOptions {
   search?: boolean;
   searchDebounce?: number;
   optionsFitInput?: boolean;
+  valueEquals?: (lhs: any, rhs: any) => boolean;
 }
 
 export const DefaultSelectOptions: SelectOptions = {
   theme: 'default',
   search: false,
   searchDebounce: 200,
-  optionsFitInput: true
+  optionsFitInput: true,
+  valueEquals: (lhs: any, rhs: any) => lhs == rhs
 };
 
 @Component({
@@ -127,7 +129,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   }
 
   setValue(value: any) {
-    if (value === this.value) {
+    if (this.currentOptions.valueEquals(value, this.value)) {
       this.valueInitialSet = false;
       this.optionsComponent.setValue(this.value);
       return;
@@ -161,7 +163,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
     const value = option ? option.value : undefined;
 
-    if (value === this.value) {
+    if (this.currentOptions.valueEquals(value, this.value)) {
       return;
     }
 
