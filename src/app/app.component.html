@@ -1,6 +1,6 @@
 <div>
   <h2>Select</h2>
-  <gxs-select placeholder="Choose your destiny" [initialValue]="'value2'" [options]="{ search: true }" (change)="onChange($event, 1)">
+  <gxs-select placeholder="Choose your destiny" [initialValue]="'value2'" [options]="{ search: true, searchPlaceholder: 'Поиск...' }" (change)="onChange($event, 1)">
     <gxs-option value="value1">name1</gxs-option>
     <gxs-option [value]="'value2'">name2</gxs-option>
     <gxs-option [value]="'value3'">name3</gxs-option>
