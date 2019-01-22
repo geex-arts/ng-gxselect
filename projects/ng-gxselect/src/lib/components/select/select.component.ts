@@ -22,13 +22,15 @@ export interface SelectOptions {
   search?: boolean;
   searchDebounce?: number;
   optionsFitInput?: boolean;
+  searchPlaceholder?: string;
 }
 
 export const DefaultSelectOptions: SelectOptions = {
   theme: 'default',
   search: false,
   searchDebounce: 200,
-  optionsFitInput: true
+  optionsFitInput: true,
+  searchPlaceholder: 'Search...'
 };
 
 @Component({

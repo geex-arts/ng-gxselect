@@ -12,7 +12,7 @@
     <div *ngIf="config.search" class="options__search-container">
       <input class="options__search"
              [xsAutofocus]="opened"
-             placeholder="Search..."
+             [placeholder]="config.searchPlaceholder"
              [(ngModel)]="searchQuery"
              (input)="searchUpdated.next()">
     </div>
