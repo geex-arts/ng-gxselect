@@ -188,7 +188,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setValue(value: any) {
-    if (value === this.value) {
+    if (this.config.valueEquals && this.config.valueEquals(value, this.value)) {
       this.valueInitialSet = false;
       this.valueOption = this.selectedOption;
       this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
@@ -213,11 +213,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    if (this.valueOption && this.valueOption.value == this.value) {
+    if (this.valueOption && this.config.valueEquals(this.valueOption.value, this.value)) {
       return this.valueOption;
     }
 
-    return this.options.find(item => item.value == this.value);
+    return this.options.find(item => this.config.valueEquals(item.value, this.value));
   }
 
   toggleOpened() {
