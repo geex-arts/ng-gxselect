@@ -23,6 +23,7 @@ export interface SelectOptions {
   searchDebounce?: number;
   optionsFitInput?: boolean;
   valueEquals?: (lhs: any, rhs: any) => boolean;
+  searchPlaceholder?: string;
 }
 
 export const DefaultSelectOptions: SelectOptions = {
@@ -30,7 +31,8 @@ export const DefaultSelectOptions: SelectOptions = {
   search: false,
   searchDebounce: 200,
   optionsFitInput: true,
-  valueEquals: (lhs: any, rhs: any) => lhs == rhs
+  valueEquals: (lhs: any, rhs: any) => lhs == rhs,
+  searchPlaceholder: 'Search...'
 };
 
 @Component({
