@@ -24,6 +24,7 @@ export interface SelectOptions {
   optionsFitInput?: boolean;
   valueEquals?: (lhs: any, rhs: any) => boolean;
   searchPlaceholder?: string;
+  classes?: string[];
 }
 
 export const DefaultSelectOptions: SelectOptions = {
@@ -32,7 +33,8 @@ export const DefaultSelectOptions: SelectOptions = {
   searchDebounce: 200,
   optionsFitInput: true,
   valueEquals: (lhs: any, rhs: any) => lhs == rhs,
-  searchPlaceholder: 'Search...'
+  searchPlaceholder: 'Search...',
+  classes: []
 };
 
 @Component({
@@ -62,6 +64,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   @ContentChildren(OptionComponent) staticOptions = new QueryList<OptionComponent>();
 
   loading = false;
+  classes = [];
 
   private value: any;
   private valueInitialSet = true;
@@ -82,6 +85,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
       if (this.disabled) {
         this.optionsComponent.close();
       }
+    }
+
+    if (changes['options']) {
+      this.updateClasses();
     }
   }
 
@@ -218,5 +225,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   onTouched() {
     this.touchCallback();
+  }
+
+  updateClasses() {
+    this.classes = ['select_theme_' + this.currentOptions.theme].concat(this.currentOptions.classes);
+    this.cd.detectChanges();
   }
 }
