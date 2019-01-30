@@ -1,6 +1,6 @@
 import {
-  AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, forwardRef,
-  Input, OnChanges, OnDestroy, Output, QueryList, SimpleChanges, ViewChild, ViewEncapsulation
+  AfterContentChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren,
+  EventEmitter, forwardRef, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild
 } from '@angular/core';
 import { ViewState } from '@angular/core/src/view';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -51,7 +51,7 @@ export const DefaultSelectOptions: SelectOptions = {
   ]
 })
 @ComponentDestroyObserver
-export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecked, ControlValueAccessor {
+export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit, AfterContentChecked, ControlValueAccessor {
 
   @Input() options: SelectOptions = {};
   @Input() initialValue: any;
@@ -63,6 +63,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   @ViewChild(OptionsComponent) optionsComponent: OptionsComponent;
   @ContentChildren(OptionComponent) staticOptions = new QueryList<OptionComponent>();
 
+  viewInitialized = false;
   loading = false;
   classes = [];
 
@@ -73,6 +74,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   private changeCallback = (_: any) => void {};
 
   constructor(private cd: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+    this.updateClasses();
+  }
 
   ngOnDestroy(): void { }
 
@@ -87,9 +92,13 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
       }
     }
 
-    if (changes['options']) {
+    if (changes['options'] && this.viewInitialized) {
       this.updateClasses();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.viewInitialized = true;
   }
 
   ngAfterContentChecked(): void {
@@ -229,6 +238,5 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   updateClasses() {
     this.classes = ['select_theme_' + this.currentOptions.theme].concat(this.currentOptions.classes);
-    this.cd.detectChanges();
   }
 }

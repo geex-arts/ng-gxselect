@@ -16,6 +16,9 @@ export class AppComponent {
     this.form.valueChanges.subscribe(value => {
       console.log('form change', this.form.status, value);
     });
+
+    this.form.patchValue({ submit4: 'value1' });
+    setTimeout(() => this.form.patchValue({ submit4: 'value2' }), 1000);
   }
 
   onChange(e, select) {
