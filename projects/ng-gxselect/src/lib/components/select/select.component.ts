@@ -229,6 +229,5 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   updateClasses() {
     this.classes = ['select_theme_' + this.currentOptions.theme].concat(this.currentOptions.classes);
-    this.cd.detectChanges();
   }
 }
