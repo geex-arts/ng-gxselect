@@ -6,6 +6,7 @@
      class="select__input"
      [class.select__input_opened]="optionsComponent?.opened"
      [class.select__input_disabled]="disabled"
+     [ngClass]="currentOptions.classes"
      (tap)="toggleOpened()"
      #input>
     <ng-container *ngIf="!loading">
