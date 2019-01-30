@@ -1,12 +1,11 @@
 <div class="select"
-     [ngClass]="['select_theme_' + currentOptions.theme]"
+     [ngClass]="classes"
      (window:click)="onBlur()"
      (click)="onClick($event)">
   <a href="javascript:void(0)"
      class="select__input"
      [class.select__input_opened]="optionsComponent?.opened"
      [class.select__input_disabled]="disabled"
-     [ngClass]="currentOptions.classes"
      (tap)="toggleOpened()"
      #input>
     <ng-container *ngIf="!loading">

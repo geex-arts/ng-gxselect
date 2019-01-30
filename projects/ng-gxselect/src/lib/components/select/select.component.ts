@@ -64,6 +64,7 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
   @ContentChildren(OptionComponent) staticOptions = new QueryList<OptionComponent>();
 
   loading = false;
+  classes = [];
 
   private value: any;
   private valueInitialSet = true;
@@ -84,6 +85,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
       if (this.disabled) {
         this.optionsComponent.close();
       }
+    }
+
+    if (changes['options']) {
+      this.updateClasses();
     }
   }
 
@@ -220,5 +225,10 @@ export class SelectComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   onTouched() {
     this.touchCallback();
+  }
+
+  updateClasses() {
+    this.classes = ['select_theme_' + this.currentOptions.theme].concat(this.currentOptions.classes);
+    this.cd.detectChanges();
   }
 }
