@@ -169,13 +169,6 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
     }
   }
 
-  onOptionValueSet(option: Option) {
-    this.valueOption = option;
-    this.value = option ? option.value : undefined;
-    this.valueInitialSet = false;
-    this.cd.detectChanges();
-  }
-
   onOptionSelected(option: Option) {
     this.valueOption = option;
 
@@ -200,15 +193,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   }
 
   get selectedOption() {
-    if (this.value === undefined) {
-      return;
-    }
-
-    if (!this.valueOption || this.valueOption.value != this.value) {
-      return;
-    }
-
-    return this.valueOption;
+    return this.optionsComponent.selectedOption;
   }
 
   toggleOpened() {
