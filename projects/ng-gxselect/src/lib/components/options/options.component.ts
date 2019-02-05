@@ -156,11 +156,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         this.options = options;
 
         if (!this.valueOption && this.value !== NotSet) {
-          this.sourceSubscriptions.push(this.source.loadValue(this.value)
-            .pipe(whileComponentNotDestroyed(this))
-            .subscribe(() => {
-              this.loadedInitialValue.next();
-            }));
+          this.loadValue();
         }
 
         this.cd.detectChanges();
@@ -173,12 +169,16 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       }));
 
     if (this.value !== NotSet) {
-      this.sourceSubscriptions.push(this.source.loadValue(this.value)
-        .pipe(whileComponentNotDestroyed(this))
-        .subscribe(() => {
-          this.loadedInitialValue.next();
-        }));
+      this.loadValue();
     }
+  }
+
+  loadValue() {
+    this.sourceSubscriptions.push(this.source.loadValue(this.value)
+      .pipe(whileComponentNotDestroyed(this))
+      .subscribe(() => {
+        this.loadedInitialValue.next();
+      }));
   }
 
   loadMore() {
