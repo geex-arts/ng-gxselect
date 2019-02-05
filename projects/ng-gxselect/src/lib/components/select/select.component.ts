@@ -199,7 +199,15 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   }
 
   get selectedOption() {
-    return this.optionsComponent.selectedOption;
+    if (this.value === NotSet) {
+      return;
+    }
+    
+    if (!this.valueOption || !this.currentOptions.valueEquals(this.valueOption.value, this.value)) {
+      return;
+    }
+
+    return this.valueOption;
   }
 
   toggleOpened() {
