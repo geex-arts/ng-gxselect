@@ -192,11 +192,9 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     if (this.config.valueEquals && this.config.valueEquals(value, this.value)) {
       this.valueInitialSet = false;
       this.valueOption = this.selectedOption;
+      this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
 
-      if (this.valueOption) {
-        this.valueSet.emit(this.valueOption);
-      } else {
-        this.valueSet.emit({ value: this.value, name: undefined });
+      if (!this.valueOption) {
         this.loadValue();
       }
 
@@ -212,12 +210,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     this.cd.detectChanges();
 
     if (!valueInitialSet) {
-      if (this.valueOption) {
-        this.valueSet.emit(this.valueOption);
-      } else {
-        this.valueSet.emit({ value: this.value, name: undefined });
-        this.loadValue();
-      }
+      this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
+    }
+
+    if (!this.valueOption) {
+      this.loadValue();
     }
   }
 
