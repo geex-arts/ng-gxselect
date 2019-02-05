@@ -29,7 +29,7 @@ export class AppComponent {
     setTimeout(() => this.form.patchValue({ submit4: 'value2' }), 2000);
 
     setTimeout(() => this.form.patchValue({ submit7: 'value1' }), 1000);
-    setTimeout(() => this.form.patchValue({ submit7: 'value2' }), 3500);
+    setTimeout(() => this.form.patchValue({ submit7: 'value2' }), 2500); // before previous finished
   }
 
   onChange(e, select) {
