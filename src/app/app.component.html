@@ -81,3 +81,16 @@
     </ul>
   </form>
 </div>
+<div>
+  <h2>Select with undefined and null options</h2>
+  <gxs-select [options]="{ search: true }" (change)="onChange($event, 5)">
+    <gxs-option [value]="undefined">undefined</gxs-option>
+    <gxs-option [value]="null">null</gxs-option>
+    <gxs-option [value]="'value1'">name1</gxs-option>
+    <gxs-option [value]="'value2'">name2</gxs-option>
+    <gxs-option [value]="'value3'">name3</gxs-option>
+    <gxs-option [value]="'value4'">name4</gxs-option>
+    <gxs-option [value]="'value5'">name5</gxs-option>
+    <gxs-option [value]="'value6'">name6</gxs-option>
+  </gxs-select>
+</div>

@@ -27,7 +27,7 @@
            href="javascript:void(0)"
            class="options__item"
            [class.options__item_hover]="option === hoverOption"
-           [class.options__item_selected]="option.value == value"
+           [class.options__item_selected]="config.valueEquals(option.value, value)"
            (mouseenter)="setHoverOption(option)"
            (mouseleave)="setHoverOption(option)"
            (tap)="setValue(option.value)">
