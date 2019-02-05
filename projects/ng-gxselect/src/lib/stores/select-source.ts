@@ -1,4 +1,5 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { publishLast, refCount } from 'rxjs/operators';
 
 import { Option } from '../models/option';
 
@@ -9,6 +10,7 @@ export abstract class SelectSource {
   private _loading = new BehaviorSubject<boolean>(false);
   private loadRequested = false;
   private fetchRequest: Subscription;
+  private fetchValueRequest: Subscription;
   private searchQuery: string;
   private _loaded = false;
 
@@ -95,12 +97,21 @@ export abstract class SelectSource {
     }
 
     this.loading = true;
-    this.fetchRequest = this.fetch(this.searchQuery).subscribe(
+
+    if (this.fetchRequest) {
+      this.fetchRequest.unsubscribe();
+      this.fetchRequest = undefined;
+    }
+
+    const sub = this.fetch(this.searchQuery).pipe(publishLast(), refCount()).subscribe(
       options => {
         this.options = this.options.concat(options);
         this.loading = false;
         this._loaded = true;
-        this.fetchRequest = undefined;
+
+        if (this.fetchRequest === sub) {
+          this.fetchRequest = undefined;
+        }
 
         if (this.loadRequested) {
           this.loadRequested = false;
@@ -110,7 +121,10 @@ export abstract class SelectSource {
       () => {
         this.loading = false;
         this._loaded = true;
-        this.fetchRequest = undefined;
+
+        if (this.fetchRequest === sub) {
+          this.fetchRequest = undefined;
+        }
 
         if (this.loadRequested) {
           this.loadRequested = false;
@@ -118,11 +132,32 @@ export abstract class SelectSource {
         }
       }
     );
+
+    this.fetchRequest = sub;
   }
 
   loadValue(value: any): Observable<Option> {
-    const obs = this.fetchByValue(value);
-    obs.subscribe(option => this.valueOption = option);
+    if (this.fetchValueRequest) {
+      this.fetchValueRequest.unsubscribe();
+      this.fetchValueRequest = undefined;
+    }
+
+    const obs = this.fetchByValue(value).pipe(publishLast(), refCount());
+    const sub = obs.subscribe(
+      option => {
+        this.valueOption = option;
+
+        if (this.fetchValueRequest === sub) {
+          this.fetchValueRequest = undefined;
+        }
+      },
+      () => {
+        if (this.fetchValueRequest === sub) {
+          this.fetchValueRequest = undefined;
+        }
+      }
+    );
+    this.fetchValueRequest = sub;
     return obs;
   }
 
