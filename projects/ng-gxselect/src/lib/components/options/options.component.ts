@@ -18,6 +18,7 @@ import { Option } from '../../models/option';
 import { SelectOptions } from '../select/select.component';
 import { SelectService } from '../../services/select/select.service';
 import { getOffset } from '../../utils/document-utils/document-utils';
+import { NotSet } from '../../models/not-set';
 
 export enum OptionsPosition {
   BottomLeft,
@@ -32,8 +33,6 @@ export enum KeyboardEventCode {
   ArrowUp = 38,
   ArrowDown = 40
 }
-
-export const NotSet = {};
 
 @Component({
   selector: 'gxs-options',
