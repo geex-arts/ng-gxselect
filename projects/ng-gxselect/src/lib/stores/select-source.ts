@@ -1,6 +1,8 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { publishLast, refCount, tap } from 'rxjs/operators';
 
 import { Option } from '../models/option';
+import { NotSet } from '../models/not-set';
 
 export abstract class SelectSource {
 
@@ -9,6 +11,9 @@ export abstract class SelectSource {
   private _loading = new BehaviorSubject<boolean>(false);
   private loadRequested = false;
   private fetchRequest: Subscription;
+  private loadingValue: any = NotSet;
+  private loadingValueObs: Observable<Option>;
+  private fetchValueRequest: Subscription;
   private searchQuery: string;
   private _loaded = false;
 
@@ -95,12 +100,21 @@ export abstract class SelectSource {
     }
 
     this.loading = true;
-    this.fetchRequest = this.fetch(this.searchQuery).subscribe(
+
+    if (this.fetchRequest) {
+      this.fetchRequest.unsubscribe();
+      this.fetchRequest = undefined;
+    }
+
+    const sub = this.fetch(this.searchQuery).subscribe(
       options => {
         this.options = this.options.concat(options);
         this.loading = false;
         this._loaded = true;
-        this.fetchRequest = undefined;
+
+        if (this.fetchRequest === sub) {
+          this.fetchRequest = undefined;
+        }
 
         if (this.loadRequested) {
           this.loadRequested = false;
@@ -110,7 +124,10 @@ export abstract class SelectSource {
       () => {
         this.loading = false;
         this._loaded = true;
-        this.fetchRequest = undefined;
+
+        if (this.fetchRequest === sub) {
+          this.fetchRequest = undefined;
+        }
 
         if (this.loadRequested) {
           this.loadRequested = false;
@@ -118,11 +135,58 @@ export abstract class SelectSource {
         }
       }
     );
+
+    this.fetchRequest = sub;
   }
 
   loadValue(value: any): Observable<Option> {
-    const obs = this.fetchByValue(value);
-    obs.subscribe(option => this.valueOption = option);
+    if (this.loadingValueObs && this.loadingValue === value) {  // TODO: change to config compare
+      return this.loadingValueObs;
+    }
+
+    if (this.fetchValueRequest) {
+      this.fetchValueRequest.unsubscribe();
+      this.fetchValueRequest = undefined;
+    }
+
+    this.loadingValue = NotSet;
+    this.loadingValueObs = undefined;
+
+    const obs = this.fetchByValue(value).pipe(
+      tap(option => {
+        this.valueOption = option;
+
+        if (this.fetchValueRequest === sub) {
+          this.fetchValueRequest = undefined;
+        }
+
+        if (this.loadingValueObs === obs) {
+          this.loadingValue = NotSet;
+          this.loadingValueObs = undefined;
+        }
+      }),
+      publishLast(),
+      refCount()
+    );
+
+    this.loadingValue = value;
+    this.loadingValueObs = obs;
+
+    const sub = obs.subscribe(
+      () => { },
+      () => {
+        if (this.fetchValueRequest === sub) {
+          this.fetchValueRequest = undefined;
+        }
+
+        if (this.loadingValueObs === obs) {
+          this.loadingValue = NotSet;
+          this.loadingValueObs = undefined;
+        }
+      }
+    );
+
+    this.fetchValueRequest = sub;
     return obs;
   }
 

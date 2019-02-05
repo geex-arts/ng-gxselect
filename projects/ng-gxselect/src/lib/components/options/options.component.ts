@@ -18,6 +18,7 @@ import { Option } from '../../models/option';
 import { SelectOptions } from '../select/select.component';
 import { SelectService } from '../../services/select/select.service';
 import { getOffset } from '../../utils/document-utils/document-utils';
+import { NotSet } from '../../models/not-set';
 
 export enum OptionsPosition {
   BottomLeft,
@@ -32,8 +33,6 @@ export enum KeyboardEventCode {
   ArrowUp = 38,
   ArrowDown = 40
 }
-
-export const NotSet = {};
 
 @Component({
   selector: 'gxs-options',
@@ -156,11 +155,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         this.options = options;
 
         if (!this.valueOption && this.value !== NotSet) {
-          this.sourceSubscriptions.push(this.source.loadValue(this.value)
-            .pipe(whileComponentNotDestroyed(this))
-            .subscribe(() => {
-              this.loadedInitialValue.next();
-            }));
+          this.loadValue();
         }
 
         this.cd.detectChanges();
@@ -173,12 +168,16 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       }));
 
     if (this.value !== NotSet) {
-      this.sourceSubscriptions.push(this.source.loadValue(this.value)
-        .pipe(whileComponentNotDestroyed(this))
-        .subscribe(() => {
-          this.loadedInitialValue.next();
-        }));
+      this.loadValue();
     }
+  }
+
+  loadValue() {
+    this.sourceSubscriptions.push(this.source.loadValue(this.value)
+      .pipe(whileComponentNotDestroyed(this))
+      .subscribe(() => {
+        this.loadedInitialValue.next();
+      }));
   }
 
   loadMore() {
@@ -194,6 +193,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       this.valueInitialSet = false;
       this.valueOption = this.selectedOption;
       this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
+
+      if (!this.valueOption) {
+        this.loadValue();
+      }
+
       return;
     }
 
@@ -206,7 +210,11 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     this.cd.detectChanges();
 
     if (!valueInitialSet) {
-      this.change.emit(this.valueOption || { value: this.value, name: undefined });
+      this.valueSet.emit(this.valueOption || { value: this.value, name: undefined });
+    }
+
+    if (!this.valueOption) {
+      this.loadValue();
     }
   }
 

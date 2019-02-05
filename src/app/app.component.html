@@ -94,3 +94,13 @@
     <gxs-option [value]="'value6'">name6</gxs-option>
   </gxs-select>
 </div>
+<div>
+  <h2>Ajax Select</h2>
+  <gxs-select [source]="source" [initialValue]="'value2'" [options]="{ search: true }" (change)="onChange($event, 6)"></gxs-select>
+</div>
+<div>
+  <h2>Reactive Ajax Select</h2>
+  <form [formGroup]="form">
+    <gxs-select [source]="source" [options]="{ search: true }" [formControlName]="'submit7'"  (change)="onChange($event, 7)"></gxs-select>
+  </form>
+</div>

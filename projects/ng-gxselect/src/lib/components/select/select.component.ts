@@ -15,7 +15,8 @@ import { Option } from '../../models/option';
 import { OptionComponent } from '../option/option.component';
 import { SelectSource } from '../../stores/select-source';
 import { StaticSelectSource } from '../../stores/static-select-source';
-import { NotSet, OptionsComponent } from '../options/options.component';
+import { OptionsComponent } from '../options/options.component';
+import { NotSet } from '../../models/not-set';
 
 export interface SelectOptions {
   theme?: string;
@@ -199,7 +200,15 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   }
 
   get selectedOption() {
-    return this.optionsComponent.selectedOption;
+    if (this.value === NotSet) {
+      return;
+    }
+    
+    if (!this.valueOption || !this.currentOptions.valueEquals(this.valueOption.value, this.value)) {
+      return;
+    }
+
+    return this.valueOption;
   }
 
   toggleOpened() {
