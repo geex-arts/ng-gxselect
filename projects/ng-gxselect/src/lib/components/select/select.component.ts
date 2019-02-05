@@ -15,7 +15,7 @@ import { Option } from '../../models/option';
 import { OptionComponent } from '../option/option.component';
 import { SelectSource } from '../../stores/select-source';
 import { StaticSelectSource } from '../../stores/static-select-source';
-import { OptionsComponent } from '../options/options.component';
+import { NotSet, OptionsComponent } from '../options/options.component';
 
 export interface SelectOptions {
   theme?: string;
@@ -32,7 +32,13 @@ export const DefaultSelectOptions: SelectOptions = {
   search: false,
   searchDebounce: 200,
   optionsFitInput: true,
-  valueEquals: (lhs: any, rhs: any) => lhs == rhs,
+  valueEquals: (lhs: any, rhs: any) => {
+    if (lhs === null || lhs === undefined || rhs === null || rhs === undefined) {
+      return lhs === rhs;
+    } else {
+      return lhs == rhs;
+    }
+  },
   searchPlaceholder: 'Search...',
   classes: []
 };
@@ -54,7 +60,7 @@ export const DefaultSelectOptions: SelectOptions = {
 export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit, AfterContentChecked, ControlValueAccessor {
 
   @Input() options: SelectOptions = {};
-  @Input() initialValue: any;
+  @Input() initialValue: any = NotSet;
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() placeholder = 'Choose';
   @Input() disabled = false;
@@ -67,7 +73,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   loading = false;
   classes = [];
 
-  private value: any;
+  private value: any = NotSet;
   private valueInitialSet = true;
   private valueOption: Option;
   private touchCallback = () => void {};
@@ -169,13 +175,6 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
     }
   }
 
-  onOptionValueSet(option: Option) {
-    this.valueOption = option;
-    this.value = option ? option.value : undefined;
-    this.valueInitialSet = false;
-    this.cd.detectChanges();
-  }
-
   onOptionSelected(option: Option) {
     this.valueOption = option;
 
@@ -200,15 +199,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   }
 
   get selectedOption() {
-    if (this.value === undefined) {
-      return;
-    }
-
-    if (!this.valueOption || this.valueOption.value != this.value) {
-      return;
-    }
-
-    return this.valueOption;
+    return this.optionsComponent.selectedOption;
   }
 
   toggleOpened() {

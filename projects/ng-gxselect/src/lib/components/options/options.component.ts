@@ -33,6 +33,8 @@ export enum KeyboardEventCode {
   ArrowDown = 40
 }
 
+export const NotSet = {};
+
 @Component({
   selector: 'gxs-options',
   templateUrl: './options.component.html',
@@ -60,7 +62,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   searchMinimumLength = 3;
   options: Option[] = [];
   hoverOption: Option;
-  value: any;
+  value: any = NotSet;
   valueInitialSet = true;
   valueOption: Option;
   loading = false;
@@ -153,7 +155,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe(options => {
         this.options = options;
 
-        if (!this.valueOption && this.value != undefined) {
+        if (!this.valueOption && this.value !== NotSet) {
           this.sourceSubscriptions.push(this.source.loadValue(this.value)
             .pipe(whileComponentNotDestroyed(this))
             .subscribe(() => {
@@ -170,7 +172,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         this.cd.detectChanges();
       }));
 
-    if (this.value != undefined) {
+    if (this.value !== NotSet) {
       this.sourceSubscriptions.push(this.source.loadValue(this.value)
         .pipe(whileComponentNotDestroyed(this))
         .subscribe(() => {
@@ -209,7 +211,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   get selectedOption() {
-    if (this.value === undefined) {
+    if (this.value === NotSet) {
       return;
     }
 
