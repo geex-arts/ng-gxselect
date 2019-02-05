@@ -32,7 +32,13 @@ export const DefaultSelectOptions: SelectOptions = {
   search: false,
   searchDebounce: 200,
   optionsFitInput: true,
-  valueEquals: (lhs: any, rhs: any) => lhs == rhs,
+  valueEquals: (lhs: any, rhs: any) => {
+    if (lhs === null || lhs === undefined || rhs === null || rhs === undefined) {
+      return lhs === rhs;
+    } else {
+      return lhs == rhs;
+    }
+  },
   searchPlaceholder: 'Search...',
   classes: []
 };
