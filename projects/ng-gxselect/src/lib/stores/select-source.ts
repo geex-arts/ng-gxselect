@@ -1,7 +1,8 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { publishLast, refCount } from 'rxjs/operators';
+import { publishLast, refCount, tap } from 'rxjs/operators';
 
 import { Option } from '../models/option';
+import { NotSet } from '../models/not-set';
 
 export abstract class SelectSource {
 
@@ -10,6 +11,8 @@ export abstract class SelectSource {
   private _loading = new BehaviorSubject<boolean>(false);
   private loadRequested = false;
   private fetchRequest: Subscription;
+  private loadingValue: any = NotSet;
+  private loadingValueObs: Observable<Option>;
   private fetchValueRequest: Subscription;
   private searchQuery: string;
   private _loaded = false;
@@ -103,7 +106,7 @@ export abstract class SelectSource {
       this.fetchRequest = undefined;
     }
 
-    const sub = this.fetch(this.searchQuery).pipe(publishLast(), refCount()).subscribe(
+    const sub = this.fetch(this.searchQuery).subscribe(
       options => {
         this.options = this.options.concat(options);
         this.loading = false;
@@ -137,26 +140,52 @@ export abstract class SelectSource {
   }
 
   loadValue(value: any): Observable<Option> {
+    if (this.loadingValueObs && this.loadingValue === value) {  // TODO: change to config compare
+      return this.loadingValueObs;
+    }
+
     if (this.fetchValueRequest) {
       this.fetchValueRequest.unsubscribe();
       this.fetchValueRequest = undefined;
     }
 
-    const obs = this.fetchByValue(value).pipe(publishLast(), refCount());
-    const sub = obs.subscribe(
-      option => {
+    this.loadingValue = NotSet;
+    this.loadingValueObs = undefined;
+
+    const obs = this.fetchByValue(value).pipe(
+      tap(option => {
         this.valueOption = option;
 
         if (this.fetchValueRequest === sub) {
           this.fetchValueRequest = undefined;
         }
-      },
+
+        if (this.loadingValueObs === obs) {
+          this.loadingValue = NotSet;
+          this.loadingValueObs = undefined;
+        }
+      }),
+      publishLast(),
+      refCount()
+    );
+
+    this.loadingValue = value;
+    this.loadingValueObs = obs;
+
+    const sub = obs.subscribe(
+      () => { },
       () => {
         if (this.fetchValueRequest === sub) {
           this.fetchValueRequest = undefined;
         }
+
+        if (this.loadingValueObs === obs) {
+          this.loadingValue = NotSet;
+          this.loadingValueObs = undefined;
+        }
       }
     );
+
     this.fetchValueRequest = sub;
     return obs;
   }
