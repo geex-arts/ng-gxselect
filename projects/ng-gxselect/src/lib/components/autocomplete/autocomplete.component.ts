@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { of, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import * as _ from 'lodash';
+import defaults from 'lodash/defaults';
 
 import {
   ComponentDestroyObserver,
@@ -81,7 +81,7 @@ export class AutocompleteComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   get currentOptions() {
-    return _.defaults(this.options, DefaultSelectOptions);
+    return defaults(this.options, DefaultSelectOptions);
   }
 
   onOptionSelected(value: Option) {

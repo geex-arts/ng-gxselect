@@ -5,7 +5,7 @@ import {
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ScrollableDirective } from 'ng-gxscrollable';
-import * as _ from 'lodash';
+import clamp from 'lodash/clamp';
 
 import {
   ComponentDestroyObserver,
@@ -333,7 +333,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       index = this.hoverOption ? this.options.findIndex(item => item === this.hoverOption) + 1 : 0;
     }
 
-    index = _.clamp(index, 0, this.options.length - 1);
+    index = clamp(index, 0, this.options.length - 1);
 
     if (index > this.options.length - 1) {
       return;

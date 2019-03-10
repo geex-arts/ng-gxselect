@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { ViewState } from '@angular/core/src/view';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as _ from 'lodash';
+import defaults from 'lodash/defaults';
 
 import {
   ComponentDestroyObserver,
@@ -123,7 +123,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   }
 
   get currentOptions() {
-    return _.defaults(this.options, DefaultSelectOptions);
+    return defaults(this.options, DefaultSelectOptions);
   }
 
   writeValue(value: any): void {

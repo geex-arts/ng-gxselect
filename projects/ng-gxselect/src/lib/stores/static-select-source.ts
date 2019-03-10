@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
+import trim from 'lodash/trim';
+import isEqual from 'lodash/isEqual';
 import { Observable, of } from 'rxjs';
 
 import { SelectSource } from './select-source';
@@ -15,7 +16,7 @@ export class StaticSelectSource extends SelectSource {
     let items = this.staticOptions;
 
     if (searchQuery != undefined) {
-      const query = _.trim(searchQuery.toLowerCase());
+      const query = trim(searchQuery.toLowerCase());
 
       if (query != '') {
         items = items.filter(item => item.name.toLowerCase().indexOf(query) != -1);
@@ -39,7 +40,7 @@ export class StaticSelectSource extends SelectSource {
   }
 
   setStaticOptions(options: Option[]) {
-    if (_.isEqual(this.staticOptions, options)) {
+    if (isEqual(this.staticOptions, options)) {
       return;
     }
     this.staticOptions = options;
