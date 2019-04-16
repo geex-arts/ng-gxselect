@@ -13,6 +13,7 @@ import { ComponentDestroyObserver } from '../../decorators/component-destroy-obs
 export class OptionComponent implements OnDestroy, OnChanges, AfterContentChecked {
 
   @Input() name: string;
+  @Input() additionalName: string;
   @Input() value: any;
   @Input() data: any;
 
