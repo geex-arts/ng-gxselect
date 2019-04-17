@@ -1,10 +1,9 @@
 <ng-container
-  *ngIf="!additionalName">
+  *ngIf="!optionInner">
   <ng-content></ng-content>
 </ng-container>
 
 <ng-container 
-  *ngIf="additionalName !== undefined">
-  <span class="options__item-left">{{name}}</span>
-  <span class="options__item-right">{{additionalName}}</span>
+  *ngIf="optionInner !== undefined">
+  <ng-container *ngTemplateOutlet="optionInner"></ng-container>
 </ng-container>

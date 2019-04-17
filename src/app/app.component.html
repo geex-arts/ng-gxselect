@@ -113,12 +113,12 @@
         <gxs-option 
           [value]="'value1'"
           [name]="'name1'"
-          [additionalName]="'addNameQ'">
+          [optionInner]="<ng-template><span class='option__left'>{{name}}</span><span class='option__right'>qwe1</span></ng-template>">
         </gxs-option>
         <gxs-option 
           [value]="'value2'"
           [name]="'name2'"
-          [additionalName]="'addNameW'">
+          [optionInner]="<ng-template><span class='option__left'>{{name}}</span><span class='option__right'>qwe2</span></ng-template>">
         </gxs-option>
       </gxs-select>
     </form>
