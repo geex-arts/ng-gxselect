@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
-  Output, SimpleChanges, ViewChild
+  Output, SimpleChanges, TemplateRef, ViewChild
 } from '@angular/core';
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
@@ -46,6 +46,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() input: any;
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() config: SelectOptions = {};
+  @Input() optionTemplate: TemplateRef<any>;
   @Output() valueSet = new EventEmitter<Option>();
   @Output() change = new EventEmitter<Option>();
   @Output() touch = new EventEmitter<void>();
@@ -372,5 +373,13 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
     const position = itemTop - itemEl.offsetHeight / 2;
 
     this.scrollable.scrollTo(position);
+  }
+
+  templateContext(option: Option) {
+    return {
+      name: option.name,
+      value: option.value,
+      data: option.data,
+    };
   }
 }
