@@ -1,6 +1,7 @@
 import {
   AfterContentChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren,
-  EventEmitter, forwardRef, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild
+  EventEmitter, forwardRef, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { ViewState } from '@angular/core/src/view';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -65,6 +66,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() placeholder = 'Choose';
   @Input() disabled = false;
+  @Input() optionTemplate: TemplateRef<any>;
   @Output() change = new EventEmitter<any>();
   @Output() loadedInitialValue = new EventEmitter<void>();
   @ViewChild(OptionsComponent) optionsComponent: OptionsComponent;

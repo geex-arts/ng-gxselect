@@ -104,3 +104,25 @@
     <gxs-select [source]="source" [options]="{ search: true }" [formControlName]="'submit7'"  (change)="onChange($event, 7)"></gxs-select>
   </form>
 </div>
+
+<ng-template let-name="name" #options_template>
+  Name is <strong>{{name}}</strong>
+</ng-template>
+
+<div>
+  <h2>Select with 2 elements in name</h2>
+  <form [formGroup]="form">
+    <gxs-select
+      placeholder="Choose your destiny"
+      [optionTemplate]="options_template">
+      <gxs-option
+        [value]="'value1'"
+        [name]="'name1'">
+      </gxs-option>
+      <gxs-option
+        [value]="'value2'"
+        [name]="'name2'">
+      </gxs-option>
+    </gxs-select>
+  </form>
+</div>
