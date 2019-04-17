@@ -1,1 +1,9 @@
-<ng-content></ng-content>
+<ng-container
+  *ngIf="!optionInner">
+  <ng-content></ng-content>
+</ng-container>
+
+<ng-container 
+  *ngIf="optionInner !== undefined">
+  <ng-container *ngTemplateOutlet="optionInner"></ng-container>
+</ng-container>

@@ -1,5 +1,5 @@
 import {
-  AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges
+  AfterContentChecked, ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef
 } from '@angular/core';
 
 import { ComponentDestroyObserver } from '../../decorators/component-destroy-observer/component-destroy-observer';
@@ -13,6 +13,7 @@ import { ComponentDestroyObserver } from '../../decorators/component-destroy-obs
 export class OptionComponent implements OnDestroy, OnChanges, AfterContentChecked {
 
   @Input() name: string;
+  @Input() optionInner: TemplateRef<any>;
   @Input() value: any;
   @Input() data: any;
 
