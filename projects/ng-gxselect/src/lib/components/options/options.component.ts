@@ -59,7 +59,6 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   optionsPosition = OptionsPosition.BottomLeft;
   searchQuery = '';
   searchUpdated = new Subject<void>();
-  searchMinimumLength = 3;
   options: Option[] = [];
   hoverOption: Option;
   value: any = NotSet;
@@ -81,7 +80,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(() => {
         this.hoverOption = undefined;
-        this.source.search(this.searchQuery.length >= this.searchMinimumLength ? this.searchQuery : undefined);
+        this.source.search(this.searchQuery.length >= this.config.searchMinimumLength ? this.searchQuery : undefined);
         this.cd.detectChanges();
       });
 
