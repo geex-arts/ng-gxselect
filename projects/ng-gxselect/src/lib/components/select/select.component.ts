@@ -23,6 +23,7 @@ export interface SelectOptions {
   theme?: string;
   search?: boolean;
   searchDebounce?: number;
+  searchMinimumLength?: number;
   optionsFitInput?: boolean;
   valueEquals?: (lhs: any, rhs: any) => boolean;
   searchPlaceholder?: string;
@@ -33,6 +34,7 @@ export const DefaultSelectOptions: SelectOptions = {
   theme: 'default',
   search: false,
   searchDebounce: 200,
+  searchMinimumLength: 3,
   optionsFitInput: true,
   valueEquals: (lhs: any, rhs: any) => {
     if (lhs === null || lhs === undefined || rhs === null || rhs === undefined) {

@@ -39,8 +39,8 @@
       </div>
       <div *ngIf="loading" class="options__loading">loading...</div>
       <div *ngIf="options.length == 0 && !loading" class="options__empty">
-        <ng-container *ngIf="searchQuery.length >= searchMinimumLength">Nothing found</ng-container>
-        <ng-container *ngIf="searchQuery.length < searchMinimumLength">Enter at least {{searchMinimumLength}} characters</ng-container>
+        <ng-container *ngIf="searchQuery.length >= config.searchMinimumLength">Nothing found</ng-container>
+        <ng-container *ngIf="searchQuery.length < config.searchMinimumLength">Enter at least {{config.searchMinimumLength}} characters</ng-container>
       </div>
     </div>
     <gxs-scrollbar [scrollable]="scrollable" [theme]="config.theme"></gxs-scrollbar>
