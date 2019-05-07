@@ -19,7 +19,9 @@ export class StaticSelectSource extends SelectSource {
       const query = trim(searchQuery.toLowerCase());
 
       if (query != '') {
-        items = items.filter(item => item.name.toLowerCase().indexOf(query) != -1);
+        items = items.filter(item =>
+          item.name != undefined && item.name != null && item.name.toString().toLowerCase().indexOf(query) != -1
+        );
       }
     }
 
