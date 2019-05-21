@@ -223,7 +223,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
     this.cd.detectChanges();
   }
 
-  onClick(e) {
+  stopEvent(e) {
     if (!this.optionsComponent.opened) {
       return;
     }
