@@ -211,6 +211,8 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
         this.loadValue();
       }
 
+      this.opened = false;
+      this.cd.detectChanges();
       return;
     }
 
