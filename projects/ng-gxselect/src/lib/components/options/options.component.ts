@@ -1,7 +1,8 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
-  Output, SimpleChanges, TemplateRef, ViewChild
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnDestroy,
+  OnInit, Output, PLATFORM_ID, SimpleChanges, TemplateRef, ViewChild
 } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
 import { fromEvent, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ScrollableDirective } from 'ng-gxscrollable';
@@ -70,9 +71,14 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   private sourceSubscriptions: Subscription[] = [];
 
   constructor(private cd: ChangeDetectorRef,
+              @Inject(PLATFORM_ID) private platformId: Object,
               private selectService: SelectService) { }
 
   ngOnInit(): void {
+    if (this.isPlatformServer()) {
+      return;
+    }
+
     this.searchUpdated
       .pipe(
         whileComponentNotDestroyed(this),
@@ -120,6 +126,10 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       this.deinitOptions();
       this.initOptions();
     }
+  }
+
+  isPlatformServer() {
+    return isPlatformServer(this.platformId);
   }
 
   deinitOptions() {
