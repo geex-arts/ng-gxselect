@@ -14,6 +14,7 @@ export class OptionComponent implements OnDestroy, OnChanges, AfterContentChecke
 
   @Input() name: string;
   @Input() value: any;
+  @Input() image: any;
   @Input() data: any;
 
   constructor(public element: ElementRef) { }
