@@ -49,7 +49,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() config: SelectOptions = {};
   @Input() optionTemplate: TemplateRef<any>;
   @Output() valueSet = new EventEmitter<Option>();
-  @Output() change = new EventEmitter<Option>();
+  @Output() optionChange = new EventEmitter<Option>();
   @Output() touch = new EventEmitter<void>();
   @Output() loadedInitialValue = new EventEmitter<void>();
   @ViewChild('root') root: ElementRef;
@@ -156,7 +156,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
           return;
         }
         this.valueOption = option;
-        this.change.emit(this.valueOption);
+        this.optionChange.emit(this.valueOption);
         this.cd.detectChanges();
       }));
     this.sourceSubscriptions.push(this.source.options$

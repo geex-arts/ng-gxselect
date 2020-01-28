@@ -23,7 +23,7 @@
                [config]="currentOptions"
                [optionTemplate]="optionTemplate"
                (valueSet)="onOptionSelected($event)"
-               (change)="onOptionSelected($event)"
+               (optionChange)="onOptionSelected($event)"
                (touch)="onTouched()"
                (loadedInitialValue)="loadedInitialValue.emit()">
   </gxs-options>
