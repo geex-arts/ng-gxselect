@@ -1,14 +1,12 @@
 <div class="select"
      [ngClass]="classes"
      (window:click)="onBlur()"
-     (window:touchend)="onBlur()"
-     (click)="stopEvent($event)"
-     (touchend)="stopEvent($event)">
+     (click)="stopEvent($event)">
   <a href="javascript:void(0)"
      class="select__input"
      [class.select__input_opened]="optionsComponent?.opened"
      [class.select__input_disabled]="disabled"
-     (tap)="toggleOpened()"
+     (click)="toggleOpened()"
      #input>
     <ng-container *ngIf="!loading">
       <ng-container *ngIf="selectedOption == undefined">{{placeholder}}</ng-container>

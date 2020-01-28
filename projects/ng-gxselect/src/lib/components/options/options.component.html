@@ -30,7 +30,7 @@
            [class.options__item_selected]="config.valueEquals(option.value, value)"
            (mouseenter)="setHoverOption(option)"
            (mouseleave)="setHoverOption(option)"
-           (tap)="setValue(option.value)">
+           (click)="setValue(option.value)">
           <ng-container *ngIf="!optionTemplate">{{option.name}}</ng-container>
           <ng-container *ngIf="optionTemplate">
             <ng-container *ngTemplateOutlet="optionTemplate; context: templateContext(option)"></ng-container>
