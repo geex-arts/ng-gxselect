@@ -126,3 +126,13 @@
     </gxs-select>
   </form>
 </div>
+
+<div>
+  <h2>Select with images</h2>
+  <form [formGroup]="form">
+    <gxs-select>
+      <gxs-option [value]="'value1'" [name]="'name1'" [image]="'/assets/facebook.svg'"></gxs-option>
+      <gxs-option [value]="'value2'" [name]="'name2'" [image]="'/assets/twitter.svg'"></gxs-option>
+    </gxs-select>
+  </form>
+</div>

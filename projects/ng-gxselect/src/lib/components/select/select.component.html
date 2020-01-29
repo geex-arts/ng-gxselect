@@ -10,7 +10,10 @@
      #input>
     <ng-container *ngIf="!loading">
       <ng-container *ngIf="selectedOption == undefined">{{placeholder}}</ng-container>
-      <ng-container *ngIf="selectedOption != undefined">{{selectedOption.name}}</ng-container>
+      <ng-container *ngIf="selectedOption != undefined">
+        <span *ngIf="selectedOption.image" class="select__input-image" [style.background-image]="'url(' + selectedOption.image + ')'"></span>
+        <span class="select__input-label">{{selectedOption.name}}</span>
+      </ng-container>
     </ng-container>
     <ng-container *ngIf="loading">
       loading...

@@ -93,6 +93,20 @@
     }
   }
 
+  .options__item-image {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: no-repeat center center;
+    background-size: contain;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  .options__item-label {
+    display: inline-block;
+  }
+
   .options__loading {
     display: block;
     padding: 4px 10px;

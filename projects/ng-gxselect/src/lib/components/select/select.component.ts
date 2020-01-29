@@ -121,6 +121,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
       return {
         value: item.value,
         name: item.name,
+        image: item.image,
         data: item.data
       };
     }));

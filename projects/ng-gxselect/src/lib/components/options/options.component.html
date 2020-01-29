@@ -31,7 +31,10 @@
            (mouseenter)="setHoverOption(option)"
            (mouseleave)="setHoverOption(option)"
            (click)="setValue(option.value)">
-          <ng-container *ngIf="!optionTemplate">{{option.name}}</ng-container>
+          <ng-container *ngIf="!optionTemplate">
+            <span *ngIf="option.image" class="options__item-image" [style.background-image]="'url(' + option.image + ')'"></span>
+            <span class="options__item-label">{{option.name}}</span>
+          </ng-container>
           <ng-container *ngIf="optionTemplate">
             <ng-container *ngTemplateOutlet="optionTemplate; context: templateContext(option)"></ng-container>
           </ng-container>
