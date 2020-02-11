@@ -391,8 +391,9 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
 
   templateContext(option: Option) {
     return {
-      name: option.name,
       value: option.value,
+      name: option.name,
+      image: option.image,
       data: option.data,
     };
   }
