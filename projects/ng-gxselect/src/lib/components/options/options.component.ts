@@ -156,19 +156,18 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
           return;
         }
         this.valueOption = option;
-        this.optionChange.emit(this.valueOption);
         this.cd.detectChanges();
+        this.optionChange.emit(this.valueOption);
       }));
     this.sourceSubscriptions.push(this.source.options$
       .pipe(whileComponentNotDestroyed(this))
       .subscribe(options => {
         this.options = options;
+        this.cd.detectChanges();
 
         if (!this.valueOption && this.value !== NotSet) {
           this.loadValue();
         }
-
-        this.cd.detectChanges();
       }));
     this.sourceSubscriptions.push(this.source.loading$
       .pipe(whileComponentNotDestroyed(this))
