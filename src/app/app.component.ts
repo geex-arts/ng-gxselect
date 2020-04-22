@@ -35,4 +35,8 @@ export class AppComponent {
   onChange(e, select) {
     console.log('onChange', e, select);
   }
+
+  valueEquals(lhs: { value: string }, rhs: { value: string }) {
+    return (lhs ? lhs.value : null) == (rhs ? rhs.value : null);
+  }
 }
