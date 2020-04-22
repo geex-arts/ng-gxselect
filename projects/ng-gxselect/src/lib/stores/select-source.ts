@@ -3,8 +3,11 @@ import { publishLast, refCount, tap } from 'rxjs/operators';
 
 import { Option } from '../models/option';
 import { NotSet } from '../models/not-set';
+import { SelectOptions } from '../components/select/select.component';
 
 export abstract class SelectSource {
+
+  public config: SelectOptions = {};
 
   private _valueOption = new BehaviorSubject<Option>(undefined);
   private _options = new BehaviorSubject<Option[]>([]);

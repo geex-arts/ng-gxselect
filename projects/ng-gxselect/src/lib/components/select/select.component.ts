@@ -93,6 +93,12 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   ngOnDestroy(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['options']) {
+      if (this.source) {
+        this.source.config = this.currentOptions;
+      }
+    }
+
     if (changes['initialValue']) {
       this.setValue(this.initialValue);
     }
