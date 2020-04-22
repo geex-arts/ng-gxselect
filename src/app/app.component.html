@@ -136,3 +136,14 @@
     </gxs-select>
   </form>
 </div>
+
+<div>
+  <h2>Custom value equals</h2>
+  <gxs-select placeholder="Choose your destiny" [initialValue]="{ value: 'value3' }" [options]="{ valueEquals: valueEquals }">
+    <gxs-option [value]="{ value: 'value1' }">name1</gxs-option>
+    <gxs-option [value]="{ value: 'value2' }">name2</gxs-option>
+    <gxs-option [value]="{ value: 'value3' }">name3</gxs-option>
+    <gxs-option [value]="{ value: 'value4' }">name4</gxs-option>
+    <gxs-option [value]="{ value: 'value5' }">name5</gxs-option>
+  </gxs-select>
+</div>

@@ -30,7 +30,7 @@ export class StaticSelectSource extends SelectSource {
   }
 
   fetchByValue(value: any): Observable<Option> {
-    return of(this.staticOptions.find(item => item.value == value));
+    return of(this.staticOptions.find(item => this.config.valueEquals(item.value, value)));
   }
 
   isFetchAvailable(): boolean {
