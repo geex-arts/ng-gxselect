@@ -6,6 +6,7 @@ import {
 import { ViewState } from '@angular/core/src/view';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import defaults from 'lodash/defaults';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
   ComponentDestroyObserver,
@@ -26,7 +27,12 @@ export interface SelectOptions {
   searchMinimumLength?: number;
   optionsFitInput?: boolean;
   valueEquals?: (lhs: any, rhs: any) => boolean;
-  searchPlaceholder?: string;
+  labels?: {
+    loading?: string,
+    notFound?: string,
+    searchPlaceholder?: string;
+    searchShouldBeLonger?: string;
+  };
   classes?: string[];
 }
 
@@ -43,7 +49,12 @@ export const DefaultSelectOptions: SelectOptions = {
       return lhs == rhs;
     }
   },
-  searchPlaceholder: 'Search...',
+  labels: {
+    loading: 'loading...',
+    notFound: 'Nothing found',
+    searchPlaceholder: 'Search...',
+    searchShouldBeLonger: 'Enter at least {0} characters'
+  },
   classes: []
 };
 
@@ -133,8 +144,11 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
     }));
   }
 
-  get currentOptions() {
-    return defaults(this.options, DefaultSelectOptions);
+  get currentOptions(): SelectOptions {
+    const options = cloneDeep(this.options);
+    const result = defaults(options, DefaultSelectOptions);
+    result.labels = defaults(options.labels, DefaultSelectOptions.labels);
+    return result;
   }
 
   writeValue(value: any): void {
@@ -214,7 +228,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
     if (this.value === NotSet) {
       return;
     }
-    
+
     if (!this.valueOption || !this.currentOptions.valueEquals(this.valueOption.value, this.value)) {
       return;
     }
