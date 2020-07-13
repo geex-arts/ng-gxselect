@@ -80,6 +80,10 @@ export abstract class SelectSource {
       return;
     }
 
+    if (this.config.searchMinimumLength != undefined && search.length && search.length < this.config.searchMinimumLength) {
+      return;
+    }
+
     this.loadMore();
   }
 

@@ -86,7 +86,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(() => {
         this.hoverOption = undefined;
-        this.source.search(this.searchQuery.length >= this.config.searchMinimumLength ? this.searchQuery : undefined);
+        this.source.search(this.searchQuery);
         this.cd.detectChanges();
       });
 
