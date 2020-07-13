@@ -20,6 +20,7 @@ import { SelectOptions } from '../select/select.component';
 import { SelectService } from '../../services/select/select.service';
 import { getOffset } from '../../utils/document-utils/document-utils';
 import { NotSet } from '../../models/not-set';
+import { format } from '../../utils/text/text';
 
 export enum OptionsPosition {
   BottomLeft,
@@ -67,6 +68,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   valueOption: Option;
   loading = false;
   opened = false;
+  searchShouldBeLonger: string;
 
   private sourceSubscriptions: Subscription[] = [];
 
@@ -86,7 +88,7 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
       )
       .subscribe(() => {
         this.hoverOption = undefined;
-        this.source.search(this.searchQuery.length >= this.config.searchMinimumLength ? this.searchQuery : undefined);
+        this.source.search(this.searchQuery);
         this.cd.detectChanges();
       });
 
@@ -122,6 +124,10 @@ export class OptionsComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['config']) {
+      this.searchShouldBeLonger = format(this.config.labels.searchShouldBeLonger, [this.config.searchMinimumLength]);
+    }
+
     if (changes['source']) {
       this.deinitOptions();
       this.initOptions();
