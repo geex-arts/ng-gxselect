@@ -105,6 +105,10 @@
   </form>
 </div>
 
+<ng-template let-name="name" #input_template>
+  Name is <strong>{{name}}</strong>
+</ng-template>
+
 <ng-template let-name="name" #options_template>
   Name is <strong>{{name}}</strong>
 </ng-template>
@@ -114,6 +118,7 @@
   <form [formGroup]="form">
     <gxs-select
       placeholder="Choose your destiny"
+      [inputTemplate]="input_template"
       [optionTemplate]="options_template">
       <gxs-option
         [value]="'value1'"
@@ -156,7 +161,7 @@
     classes: ['test_class'],
     labels: {
       loading: 'загрузка...',
-      notFound: 'Ничего не найден',
+      notFound: 'Ничего не найдено',
       searchPlaceholder: 'Поиск...',
       searchShouldBeLonger: 'Ввведите минимум {0} символа'
     }
