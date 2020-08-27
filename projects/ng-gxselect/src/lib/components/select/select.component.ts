@@ -79,6 +79,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   @Input() source: SelectSource = new StaticSelectSource();
   @Input() placeholder = 'Choose';
   @Input() disabled = false;
+  @Input() inputTemplate: TemplateRef<any>;
   @Input() optionTemplate: TemplateRef<any>;
   @Output() change = new EventEmitter<any>();
   @Output() loadedInitialValue = new EventEmitter<void>();
@@ -263,5 +264,14 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
 
   updateClasses() {
     this.classes = ['select_theme_' + this.currentOptions.theme].concat(this.currentOptions.classes);
+  }
+
+  templateContext(option: Option) {
+    return {
+      value: option.value,
+      name: option.name,
+      image: option.image,
+      data: option.data,
+    };
   }
 }
