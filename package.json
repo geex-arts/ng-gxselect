@@ -24,7 +24,7 @@
     "hammerjs": "^2.0.8",
     "ng-gxscrollable": "0.1.0",
     "ngx-infinite-scroll": "^6.0.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
